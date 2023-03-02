@@ -56,3 +56,7 @@ li {
 a:visited {
     color: inherit;
 }
+.errors {
+    color: red;
+    text-align: center;
+}
