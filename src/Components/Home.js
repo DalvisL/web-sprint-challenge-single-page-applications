@@ -18,9 +18,9 @@ const StyledHome = styled.div`
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 50%;
+        top: 30%;
         color: white;
-        font-size: 6rem;
+        font-size: 5rem;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         text-align: center;
         width: 100%;

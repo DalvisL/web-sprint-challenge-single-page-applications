@@ -75,7 +75,7 @@ const App = () => {
   const [orders, setOrders] = useState([]);
   const [checkedToppings, setCheckedToppings] = useState([]);
 
-  // callback function that handles checkbox 
+  // callback function that handles checkbox changes 
   const checkForTwoToppings = (event) => {
     const { value, checked } = event.target;
     if (checked) {
@@ -87,6 +87,9 @@ const App = () => {
       setCheckedToppings(checkedToppings.filter(topping => topping !== value));
     }
   }
+
+  // function that checks the length of checkedToppings and sets topping1 and topping2 to true or false
+  // in formData depending on the length of checkedToppings
   const checkToppingLength = (checkedToppings) => {
     if (checkedToppings.length === 0) {
       setFormData({ ...formData, topping1: false, topping2: false });
@@ -100,23 +103,27 @@ const App = () => {
     checkToppingLength(checkedToppings);
   }, [checkedToppings]);
 
-  // for debugging
+  // for debugging purposes
   useEffect(() => {
     console.log(formData)
   }, [formData]);
 
-    // validate form data
+// validate form data and set error messages
   const setFormErrors = (name, value) => {
     yup.reach(schema, name)
       .validate(value)
       .then(valid => {
         setErrors({...errors, [name]: ''})
-        // if all fields are valid, enable the submit button
-        setDisabled(!valid)
       })
       .catch(err => setErrors({...errors, [name]: err.errors[0]}))
   }
+// function that sets disabled to true or false if the schema is valid
+  useEffect(() => {
+    schema.isValid(formData)
+      .then(valid => setDisabled(!valid))
+  }, [errors]);
 
+  // event handlers
   const handleChange = (event) => {
     const { name, value, type} = event.target;
     const valueToUse = type === 'checkbox' ? event.target.checked : value;
@@ -125,7 +132,6 @@ const App = () => {
       : setFormData({ ...formData, [name]: valueToUse });
     setFormErrors(name, valueToUse);
 }
-
 const handleSubmit = (event) => {
   event.preventDefault()
   const newOrder = {
@@ -136,6 +142,7 @@ const handleSubmit = (event) => {
     special: formData.special
   }
 
+ // post new order to the server 
   axios.post('https://reqres.in/api/orders', newOrder)
     .then(req => {
       const newArr = [...orders];

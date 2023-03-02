@@ -83,7 +83,7 @@ export default function Form(props) {
              <div className='topping'>
                 <h3>{`Toppings ( Only choose two (2) )`}</h3>
                 {/* 
-                    
+                    maps over the toppingOptions array and creates a label and an input for each option
                 */}
                 <div className='options'> 
                     {toppingOptions.map((topping, index) => {
@@ -98,6 +98,7 @@ export default function Form(props) {
                                         checkedToppings.length === 2 && !checkedToppings.includes(topping)
                                     }
                                     checked={checkedToppings.includes(topping)}
+
                                 />
                                 {topping}
                             </label>
